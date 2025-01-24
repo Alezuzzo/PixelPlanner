@@ -10,4 +10,15 @@ html, body {
   width: 100vw;
   height: 100vh;
   background-color: lightblue;
+
+  display: flex;
+  justify-content: center;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 10px;
 }

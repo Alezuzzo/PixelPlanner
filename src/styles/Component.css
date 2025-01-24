@@ -1,9 +1,10 @@
 .component-profile-div {
   display: flex;
   flex-direction: column;
-  background-color: red;
-  width: 30%;
+  background-color: rgb(245, 186, 110);
+  width: 100%;
   height: 80%;
+  border-radius: 10px;
 }
 
 .progress-bar-div {
@@ -19,4 +20,27 @@
   border-radius: 4px;
   background-color: green;
   transition: width 0.3s ease-in-out;
+}
+
+.content-info-div {
+    width: 50vw;
+    height: 85vh;
+    background-color: rgb(245, 186, 110);
+    display: flex;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.form-task {
+    margin-top: 30px;
+}
+
+.input-task {
+    width: 300px;
+    height: 38px;
+    border: 1px solid black;
+    border-radius: 8px;
+    margin: 0 20px 0 0;
+    font-size: 15px;
+    padding-left: 10px;
 }
