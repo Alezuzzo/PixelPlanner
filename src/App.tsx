@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import './styles/App.css';
 import ContentProfile from './components/ContentProfile';
-import ProgressBar from './components/ProgressBar';
 import ContentInfo from './components/ContentInfo';
 
 interface Task {
@@ -37,22 +36,15 @@ function App() {
   };
 
   return (
-    <>
-      <div className='full-width-div'>
-        <div className='column'>
-          <ContentProfile />
-          <ProgressBar progress={calculateProgress()} />
-        </div>
-        <div className='column'>
-          <ContentInfo 
-            tasks={tasks} 
-            addTask={addTask} 
-            markTaskDone={markTaskDone} 
-            deleteTask={deleteTask} 
-          />
-        </div>
-      </div>
-    </>
+    <div className='app-container'>
+      <ContentProfile progress={calculateProgress()} />
+      <ContentInfo 
+        tasks={tasks} 
+        addTask={addTask} 
+        markTaskDone={markTaskDone} 
+        deleteTask={deleteTask} 
+      />
+    </div>
   );
 }
 

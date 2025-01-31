@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import '../styles/Component.css';
+import ProgressBar from './ProgressBar';
 
 const quotes = [
   "The best way to get started is to quit talking and begin doing.",
@@ -14,14 +15,18 @@ const quotes = [
   "We may encounter many defeats but we must not be defeated."
 ];
 
-function ContentProfile() {
+interface ContentProfileProps {
+  progress: number;
+}
+
+function ContentProfile({ progress }: ContentProfileProps) {
   const [currentQuote, setCurrentQuote] = useState<string>(quotes[0]);
 
   useEffect(() => {
     const interval = setInterval(() => {
       const randomIndex = Math.floor(Math.random() * quotes.length);
       setCurrentQuote(quotes[randomIndex]);
-    }, 10000); // Change quote every 5 seconds
+    }, 5000); // Change quote every 5 seconds
 
     return () => clearInterval(interval); // Cleanup interval on component unmount
   }, []);
@@ -31,6 +36,7 @@ function ContentProfile() {
       <button>PROFILE 1</button>
       <button>PROFILE 2</button>
       <p className='pQuote'>{currentQuote}</p>
+      <ProgressBar progress={progress} />
     </div>
   );
 }
