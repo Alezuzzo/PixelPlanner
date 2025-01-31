@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import '../styles/Component.css';
+import { v4 as uuidv4 } from 'uuid';
 
 interface Task {
+  id: string;
   text: string;
   done: boolean;
   category: string;
@@ -10,8 +12,8 @@ interface Task {
 interface ContentInfoProps {
   tasks: Task[];
   addTask: (task: Task) => void;
-  markTaskDone: (index: number) => void;
-  deleteTask: (index: number) => void;
+  markTaskDone: (id: string) => void;
+  deleteTask: (id: string) => void;
 }
 
 function ContentInfo({ tasks, addTask, markTaskDone, deleteTask }: ContentInfoProps) {
@@ -24,7 +26,7 @@ function ContentInfo({ tasks, addTask, markTaskDone, deleteTask }: ContentInfoPr
   const handleAddTask = (e: React.FormEvent) => {
     e.preventDefault();
     if (newTask.trim() && selectedCategory) {
-      addTask({ text: newTask, done: false, category: selectedCategory });
+      addTask({ id: uuidv4(), text: newTask, done: false, category: selectedCategory });
       setNewTask('');
     }
   };
@@ -39,12 +41,12 @@ function ContentInfo({ tasks, addTask, markTaskDone, deleteTask }: ContentInfoPr
 
   const renderTasks = (category: string) => (
     <ul>
-      {tasks.filter(task => category === 'all' || task.category === category).map((task, index) => (
-        <li key={index}>
+      {tasks.filter(task => category === 'all' || task.category === category).map((task) => (
+        <li key={task.id}>
           {task.done && <span>✔️ </span>}
           <span className={task.done ? 'done' : ''}>{task.text}</span>
-          <button onClick={() => markTaskDone(index)}>Done</button>
-          <button onClick={() => deleteTask(index)}>Delete</button>
+          <button onClick={() => markTaskDone(task.id)}>Done</button>
+          <button onClick={() => deleteTask(task.id)}>Delete</button>
         </li>
       ))}
     </ul>

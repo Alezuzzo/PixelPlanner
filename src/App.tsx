@@ -5,6 +5,7 @@ import ProgressBar from './components/ProgressBar';
 import ContentInfo from './components/ContentInfo';
 
 interface Task {
+  id: string;
   text: string;
   done: boolean;
   category: string;
@@ -13,9 +14,9 @@ interface Task {
 function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
 
-  const markTaskDone = (index: number) => {
-    const updatedTasks = tasks.map((task, i) => 
-      i === index ? { ...task, done: true } : task
+  const markTaskDone = (id: string) => {
+    const updatedTasks = tasks.map(task => 
+      task.id === id ? { ...task, done: true } : task
     );
     setTasks(updatedTasks);
   };
@@ -24,8 +25,8 @@ function App() {
     setTasks([...tasks, task]);
   };
 
-  const deleteTask = (index: number) => {
-    const updatedTasks = tasks.filter((_, i) => i !== index);
+  const deleteTask = (id: string) => {
+    const updatedTasks = tasks.filter(task => task.id !== id);
     setTasks(updatedTasks);
   };
 
