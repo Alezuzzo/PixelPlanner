@@ -1,14 +1,16 @@
-import '../styles/Component.css'
+import React from 'react';
+import '../styles/Component.css';
 
-function ProgressBar() {
-  return (
-    <div className='progress-bar-div'>
-        <div className='progress-bar'>
-
-        </div>
-
-    </div>
-  )
+interface ProgressBarProps {
+  progress: number;
 }
 
-export default ProgressBar
+const ProgressBar: React.FC<ProgressBarProps> = ({ progress }) => {
+  return (
+    <div className='progress-bar-div'>
+      <div className='progress-bar' style={{ width: `${progress}%` }}></div>
+    </div>
+  );
+};
+
+export default ProgressBar;

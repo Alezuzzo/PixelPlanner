@@ -1,23 +1,58 @@
-import './styles/App.css'
-import ContentProfile from './components/ContentProfile'
-import ProgressBar from './components/ProgressBar'
-import ContentInfo from './components/ContentInfo'
+import { useState } from 'react';
+import './styles/App.css';
+import ContentProfile from './components/ContentProfile';
+import ProgressBar from './components/ProgressBar';
+import ContentInfo from './components/ContentInfo';
+
+interface Task {
+  text: string;
+  done: boolean;
+  category: string;
+}
 
 function App() {
+  const [tasks, setTasks] = useState<Task[]>([]);
+
+  const markTaskDone = (index: number) => {
+    const updatedTasks = tasks.map((task, i) => 
+      i === index ? { ...task, done: true } : task
+    );
+    setTasks(updatedTasks);
+  };
+
+  const addTask = (task: Task) => {
+    setTasks([...tasks, task]);
+  };
+
+  const deleteTask = (index: number) => {
+    const updatedTasks = tasks.filter((_, i) => i !== index);
+    setTasks(updatedTasks);
+  };
+
+  const calculateProgress = () => {
+    const totalTasks = tasks.length;
+    const completedTasks = tasks.filter(task => task.done).length;
+    return totalTasks === 0 ? 0 : (completedTasks / totalTasks) * 100;
+  };
+
   return (
     <>
       <div className='full-width-div'>
         <div className='column'>
-        <ContentProfile />
-        <ProgressBar/>
+          <ContentProfile />
+          <ProgressBar progress={calculateProgress()} />
         </div>
         <div className='column'>
-        <ContentInfo/>
+          <ContentInfo 
+            tasks={tasks} 
+            addTask={addTask} 
+            markTaskDone={markTaskDone} 
+            deleteTask={deleteTask} 
+          />
         </div>
-        
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
