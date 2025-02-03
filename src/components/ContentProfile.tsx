@@ -35,11 +35,6 @@ function ContentProfile({ progress, onSetGoal, goalMessage, badges, selectedBadg
   const [isPomodoroOpen, setIsPomodoroOpen] = useState<boolean>(false);
   const [currentBadgeIndex, setCurrentBadgeIndex] = useState<number | null>(null);
 
-  const handleNewQuote = () => {
-    const randomIndex = Math.floor(Math.random() * quotes.length);
-    setCurrentQuote(quotes[randomIndex]);
-  };
-
   const handleBadgeClick = (index: number) => {
     if (earnedBadges[index]) {
       setCurrentBadgeIndex(index);
