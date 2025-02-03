@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import '../styles/Component.css';
+import React, { useState, useEffect } from 'react';
 import ProgressBar from './ProgressBar';
+import BadgeSelectionModal from './BadgeSelectionModal';
 
 const quotes = [
   "The best way to get started is to quit talking and begin doing.",
@@ -17,10 +17,35 @@ const quotes = [
 
 interface ContentProfileProps {
   progress: number;
+  onSetGoal: (type: 'daily' | 'weekly' | 'monthly') => void;
+  goalMessage: string;
+  badges: string[]; // Array of badge image URLs or names
+  selectedBadges: (string | null)[];
+  setSelectedBadges: React.Dispatch<React.SetStateAction<(string | null)[]>>;
+  earnedBadges: boolean[];
 }
 
-function ContentProfile({ progress }: ContentProfileProps) {
+function ContentProfile({ progress, onSetGoal, goalMessage, badges, selectedBadges, setSelectedBadges, earnedBadges }: ContentProfileProps) {
   const [currentQuote, setCurrentQuote] = useState<string>(quotes[0]);
+  const [selectedGoalType, setSelectedGoalType] = useState<'daily' | 'weekly' | 'monthly'>('daily');
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [currentBadgeIndex, setCurrentBadgeIndex] = useState<number | null>(null);
+
+  const handleBadgeClick = (index: number) => {
+    if (earnedBadges[index]) {
+      setCurrentBadgeIndex(index);
+      setIsModalOpen(true);
+    }
+  };
+
+  const handleSelectBadge = (badge: string) => {
+    if (currentBadgeIndex !== null) {
+      const newSelectedBadges = [...selectedBadges];
+      newSelectedBadges[currentBadgeIndex] = badge;
+      setSelectedBadges(newSelectedBadges);
+      setCurrentBadgeIndex(null);
+    }
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -31,12 +56,35 @@ function ContentProfile({ progress }: ContentProfileProps) {
     return () => clearInterval(interval); // Cleanup interval on component unmount
   }, []);
 
+  const earnedBadgesList = badges.filter((_, index) => earnedBadges[index]);
+
   return (
     <div className='component-profile-div'>
-      <button>PROFILE 1</button>
-      <button>PROFILE 2</button>
+      <div className='badges-section'>
+        {selectedBadges.map((badge, index) => (
+          <div key={index} className='badge-square' onClick={() => handleBadgeClick(index)}>
+            {badge ? <img src={badge} alt={`Badge ${index + 1}`} className='badge-image' /> : <div className='empty-badge'>+</div>}
+          </div>
+        ))}
+      </div>
+      <div className='goal-setting'>
+        <select className='select-goal' value={selectedGoalType} onChange={(e) => setSelectedGoalType(e.target.value as 'daily' | 'weekly' | 'monthly')}>
+          <option value='daily'>Daily Goal</option>
+          <option value='weekly'>Weekly Goal</option>
+          <option value='monthly'>Monthly Goal</option>
+        </select>
+        <button className='button-goal' onClick={() => onSetGoal(selectedGoalType)}>Set Goal</button>
+      </div>
       <p className='pQuote'>{currentQuote}</p>
+      <p>{goalMessage}</p>
       <ProgressBar progress={progress} />
+      {isModalOpen && (
+        <BadgeSelectionModal
+          badges={earnedBadgesList}
+          onSelectBadge={handleSelectBadge}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </div>
   );
 }

@@ -23,7 +23,115 @@
 }
 
 .component-profile-div button {
-  margin: 10px;
+  margin: 0px;
+}
+
+.goal-setting {
+  width: 50%;
+  max-width: 600px; 
+  min-width: 300px; 
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between; 
+  gap: 10px;
+}
+
+.select-goal {
+  border: 1px solid #000;
+  border-radius: 5px;
+  width: 40%;
+  height: 40px;
+}
+
+.button-goal {
+  height: 40px;
+  width: 60%;
+  padding: 0;
+}
+
+.badges-section {
+  width: 50%;
+  height: 30%;
+  max-width: 600px; 
+  min-width: 300px; 
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px; /* Add some space below the badges section */
+}
+
+.badge-square {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  border: 1px solid #706c6c;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Ensure the modal is on top of other elements */
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  max-width: 80%;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.badge-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.badge-image {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.3s;
+}
+
+.badge-image:hover {
+  border-color: blue; /* Highlight the badge on hover */
+}
+
+.modal-content button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.modal-content button:hover {
+  background-color: #0056b3;
+}
+
+.empty-badge {
+  font-size: 24px;
+  color: #ffffff;
 }
 
 .pQuote {
@@ -158,7 +266,7 @@ ul {
 
 li {
   display: flex;
-  flex-direction: column; /* Ensure contents are in column layout */
+  flex-direction: row; /* Ensure contents are in column layout */
   justify-content: space-between;
   align-items: flex-start; /* Align items to the start of the flex container */
   background-color: white;
@@ -166,6 +274,19 @@ li {
   margin-bottom: 10px;
   border-radius: 5px;
   color: black;
+}
+
+li > *:nth-child(1) {
+  flex-grow: 1; /* Make the first item take up more space */
+}
+
+li > *:nth-child(2) {
+  margin-right: 5px; /* Add some space between the second and third items */
+}
+
+li > *:nth-child(2),
+li > *:nth-child(3) {
+  flex-grow: 0; /* Ensure the last two items do not grow */
 }
 
 li .done {
