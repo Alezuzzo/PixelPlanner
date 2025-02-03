@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import ProgressBar from './ProgressBar';
 import BadgeSelectionModal from './BadgeSelectionModal';
+import PomodoroTimer from './PomodoroTimer';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAppleAlt } from '@fortawesome/free-solid-svg-icons';
 
 const quotes = [
   "The best way to get started is to quit talking and begin doing.",
@@ -29,7 +32,13 @@ function ContentProfile({ progress, onSetGoal, goalMessage, badges, selectedBadg
   const [currentQuote, setCurrentQuote] = useState<string>(quotes[0]);
   const [selectedGoalType, setSelectedGoalType] = useState<'daily' | 'weekly' | 'monthly'>('daily');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isPomodoroOpen, setIsPomodoroOpen] = useState<boolean>(false);
   const [currentBadgeIndex, setCurrentBadgeIndex] = useState<number | null>(null);
+
+  const handleNewQuote = () => {
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    setCurrentQuote(quotes[randomIndex]);
+  };
 
   const handleBadgeClick = (index: number) => {
     if (earnedBadges[index]) {
@@ -68,6 +77,9 @@ function ContentProfile({ progress, onSetGoal, goalMessage, badges, selectedBadg
         ))}
       </div>
       <div className='goal-setting'>
+        <button className='button-pomodoro' onClick={() => setIsPomodoroOpen(true)}>
+          <FontAwesomeIcon icon={faAppleAlt} />
+        </button>
         <select className='select-goal' value={selectedGoalType} onChange={(e) => setSelectedGoalType(e.target.value as 'daily' | 'weekly' | 'monthly')}>
           <option value='daily'>Daily Goal</option>
           <option value='weekly'>Weekly Goal</option>
@@ -84,6 +96,9 @@ function ContentProfile({ progress, onSetGoal, goalMessage, badges, selectedBadg
           onSelectBadge={handleSelectBadge}
           onClose={() => setIsModalOpen(false)}
         />
+      )}
+      {isPomodoroOpen && (
+        <PomodoroTimer onClose={() => setIsPomodoroOpen(false)} />
       )}
     </div>
   );
